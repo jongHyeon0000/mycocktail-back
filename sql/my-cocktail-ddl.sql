@@ -55,9 +55,9 @@ CREATE TABLE `cocktail_garnishes` (
    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '칵테일 사용 가니쉬';
 
-CREATE TABLE `carbonated_integredients` (
-    `carbonated_integredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+CREATE TABLE `carbonated_ingredients` (
+    `carbonated_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
     `carbonated_id` INT NOT NULL COMMENT '탄산/소다 fk',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '탄산/소다 주재료';
@@ -78,17 +78,17 @@ CREATE TABLE `bitters` (
    `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명'
 ) COMMENT '비터스';
 
-CREATE TABLE `other_ingredient_integredients` (
-   `other_ingredient_integredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-   `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+CREATE TABLE `other_ingredient_ingredients` (
+   `other_ingredient_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
    `other_ingredient_id` INT NOT NULL COMMENT 'id',
    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '기타 첨가물 주재료';
 
-CREATE TABLE `syrup_integredients` (
-   `syrup_integredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
+CREATE TABLE `syrup_ingredients` (
+   `syrup_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
    `syrups_id` INT NOT NULL COMMENT '시럽 fk',
-   `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+   `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '시럽 주재료';
 
@@ -165,17 +165,17 @@ CREATE TABLE `image_thumbnails` (
    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '이미지 썸네일';
 
-CREATE TABLE `garnish_integredients` (
-   `garnish_integredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-   `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+CREATE TABLE `garnish_ingredients` (
+   `garnish_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
    `garnish_id` INT NOT NULL COMMENT '가니쉬 fk',
    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '가니쉬 주재료';
 
-CREATE TABLE `bitter_integredients` (
-   `bitter_integredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
+CREATE TABLE `bitter_ingredients` (
+   `bitter_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
    `bitter_id` INT NOT NULL COMMENT '비터스 fk',
-   `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+   `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일'
 ) COMMENT '비터스 주재료';
 
@@ -283,10 +283,10 @@ CREATE TABLE `syrups` (
    `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명'
 ) COMMENT '시럽';
 
-CREATE TABLE `integredients` (
-   `integredient_id` INT NOT NULL COMMENT 'id',
-   `integredient_name` VARCHAR(50) NOT NULL COMMENT '주재료명',
-   `integredient_name_kr` VARCHAR(100) NOT NULL COMMENT '주재료명(한글)',
+CREATE TABLE `ingredients` (
+   `ingredient_id` INT NOT NULL COMMENT 'id',
+   `ingredient_name` VARCHAR(50) NOT NULL COMMENT '주재료명',
+   `ingredient_name_kr` VARCHAR(100) NOT NULL COMMENT '주재료명(한글)',
    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
    `notes` TEXT NULL COMMENT '설명'
@@ -368,16 +368,16 @@ CREATE TABLE `glassware_serving_style` (
    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일'
 ) COMMENT '자주 사용되는 서빙 스타일';
 
-CREATE TABLE `juice_integredients` (
-   `juice_integredient_id` INT NOT NULL COMMENT 'id',
+CREATE TABLE `juice_ingredients` (
+   `juice_ingredient_id` INT NOT NULL COMMENT 'id',
    `juice_id` INT NOT NULL COMMENT '주스 fk',
-   `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+   `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일'
 ) COMMENT '주스 주재료';
 
-CREATE TABLE `dairy_cream_integredients` (
-   `dairy_cream_integredient_id` INT NOT NULL COMMENT 'id',
-   `integredient_id` INT NOT NULL COMMENT '주재료 fk',
+CREATE TABLE `dairy_cream_ingredients` (
+   `dairy_cream_ingredient_id` INT NOT NULL COMMENT 'id',
+   `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
    `dairy_id` INT NOT NULL COMMENT '유제품/크림 fk',
    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일'
 ) COMMENT '유제품/크림류 주재료';
@@ -445,7 +445,7 @@ CREATE TABLE `images` (
 
 CREATE TABLE `spirit_products` (
    `spirit_products_id` INT NOT NULL COMMENT 'id',
-   `base_sprits_id` INT NOT NULL COMMENT '기주 fk',
+   `base_spirits_id` INT NOT NULL COMMENT '기주 fk',
    `country_id` INT NOT NULL COMMENT '원산지 국가 fk',
    `brand_id` INT NOT NULL COMMENT '브랜드 fk',
    `spirit_name` VARCHAR(50) NOT NULL COMMENT '제품명',
@@ -458,7 +458,7 @@ CREATE TABLE `spirit_products` (
    `spicy` INT NULL COMMENT '매움(1~5)',
    `price` INT NOT NULL COMMENT '가격',
    `price_updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가격 업데이트일',
-   `integredients` TEXT NULL COMMENT '주재료',
+   `ingredients` TEXT NULL COMMENT '주재료',
    `notes` TEXT NULL COMMENT '설명',
    `profile_note` TEXT NULL COMMENT '프로필 설명',
    `history_notes` TEXT NULL COMMENT '역사 설명',
@@ -508,7 +508,7 @@ CREATE TABLE `glassware` (
 ) COMMENT '서빙 잔';
 
 ALTER TABLE `base_spirits` ADD CONSTRAINT `PK_BASE_SPIRITS` PRIMARY KEY (
-	`base_sprits_id`
+	`base_spirits_id`
 );
 
 ALTER TABLE `cocktail_variations` ADD CONSTRAINT `PK_COCKTAIL_VARIATIONS` PRIMARY KEY (
@@ -532,9 +532,9 @@ ALTER TABLE `cocktail_garnishes` ADD CONSTRAINT `PK_COCKTAIL_GARNISHES` PRIMARY 
 	`garnish_id`
 );
 
-ALTER TABLE `carbonated_integredients` ADD CONSTRAINT `PK_CARBONATED_INTEGREDIENTS` PRIMARY KEY (
-	`carbonated_integredient_id`,
-	`integredient_id`,
+ALTER TABLE `carbonated_ingredients` ADD CONSTRAINT `PK_CARBONATED_ingredients` PRIMARY KEY (
+	`carbonated_ingredient_id`,
+	`ingredient_id`,
 	`carbonated_id`
 );
 
@@ -544,16 +544,16 @@ ALTER TABLE `bitters` ADD CONSTRAINT `PK_BITTERS` PRIMARY KEY (
 	`country_id`
 );
 
-ALTER TABLE `other_ingredient_integredients` ADD CONSTRAINT `PK_OTHER_INGREDIENT_INTEGREDIENTS` PRIMARY KEY (
-	`other_ingredient_integredient_id`,
-	`integredient_id`,
+ALTER TABLE `other_ingredient_ingredients` ADD CONSTRAINT `PK_OTHER_INGREDIENT_ingredients` PRIMARY KEY (
+	`other_ingredient_ingredient_id`,
+	`ingredient_id`,
 	`other_ingredient_id`
 );
 
-ALTER TABLE `syrup_integredients` ADD CONSTRAINT `PK_SYRUP_INTEGREDIENTS` PRIMARY KEY (
-	`syrup_integredient_id`,
+ALTER TABLE `syrup_ingredients` ADD CONSTRAINT `PK_SYRUP_ingredients` PRIMARY KEY (
+	`syrup_ingredient_id`,
 	`syrups_id`,
-	`integredient_id`
+	`ingredient_id`
 );
 
 ALTER TABLE `cocktail_spirit_products` ADD CONSTRAINT `PK_COCKTAIL_SPIRIT_PRODUCTS` PRIMARY KEY (
@@ -595,16 +595,16 @@ ALTER TABLE `image_thumbnails` ADD CONSTRAINT `PK_IMAGE_THUMBNAILS` PRIMARY KEY 
 	`image_id`
 );
 
-ALTER TABLE `garnish_integredients` ADD CONSTRAINT `PK_GARNISH_INTEGREDIENTS` PRIMARY KEY (
-	`garnish_integredient_id`,
-	`integredient_id`,
+ALTER TABLE `garnish_ingredients` ADD CONSTRAINT `PK_GARNISH_ingredients` PRIMARY KEY (
+	`garnish_ingredient_id`,
+	`ingredient_id`,
 	`garnish_id`
 );
 
-ALTER TABLE `bitter_integredients` ADD CONSTRAINT `PK_BITTER_INTEGREDIENTS` PRIMARY KEY (
-	`bitter_integredient_id`,
+ALTER TABLE `bitter_ingredients` ADD CONSTRAINT `PK_BITTER_ingredients` PRIMARY KEY (
+	`bitter_ingredient_id`,
 	`bitter_id`,
-	`integredient_id`
+	`ingredient_id`
 );
 
 ALTER TABLE `cocktail_serving_style` ADD CONSTRAINT `PK_COCKTAIL_SERVING_STYLE` PRIMARY KEY (
@@ -663,8 +663,8 @@ ALTER TABLE `syrups` ADD CONSTRAINT `PK_SYRUPS` PRIMARY KEY (
 	`country_id`
 );
 
-ALTER TABLE `integredients` ADD CONSTRAINT `PK_INTEGREDIENTS` PRIMARY KEY (
-	`integredient_id`
+ALTER TABLE `ingredients` ADD CONSTRAINT `PK_ingredients` PRIMARY KEY (
+	`ingredient_id`
 );
 
 ALTER TABLE `techniques` ADD CONSTRAINT `PK_TECHNIQUES` PRIMARY KEY (
@@ -699,15 +699,15 @@ ALTER TABLE `glassware_serving_style` ADD CONSTRAINT `PK_GLASSWARE_SERVING_STYLE
 	`serving_style_id`
 );
 
-ALTER TABLE `juice_integredients` ADD CONSTRAINT `PK_JUICE_INTEGREDIENTS` PRIMARY KEY (
-	`juice_integredient_id`,
+ALTER TABLE `juice_ingredients` ADD CONSTRAINT `PK_JUICE_ingredients` PRIMARY KEY (
+	`juice_ingredient_id`,
 	`juice_id`,
-	`integredient_id`
+	`ingredient_id`
 );
 
-ALTER TABLE `dairy_cream_integredients` ADD CONSTRAINT `PK_DAIRY_CREAM_INTEGREDIENTS` PRIMARY KEY (
-	`dairy_cream_integredient_id`,
-	`integredient_id`,
+ALTER TABLE `dairy_cream_ingredients` ADD CONSTRAINT `PK_DAIRY_CREAM_ingredients` PRIMARY KEY (
+	`dairy_cream_ingredient_id`,
+	`ingredient_id`,
 	`dairy_id`
 );
 
@@ -747,7 +747,7 @@ ALTER TABLE `images` ADD CONSTRAINT `PK_IMAGES` PRIMARY KEY (
 
 ALTER TABLE `spirit_products` ADD CONSTRAINT `PK_SPIRIT_PRODUCTS` PRIMARY KEY (
 	`spirit_products_id`,
-	`base_sprits_id`,
+	`base_spirits_id`,
 	`country_id`,
 	`brand_id`
 );
@@ -808,14 +808,14 @@ REFERENCES `garnishes` (
 	`garnish_id`
 );
 
-ALTER TABLE `carbonated_integredients` ADD CONSTRAINT `FK_integredients_TO_carbonated_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `carbonated_ingredients` ADD CONSTRAINT `FK_ingredients_TO_carbonated_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
-ALTER TABLE `carbonated_integredients` ADD CONSTRAINT `FK_carbonated_TO_carbonated_integredients_1` FOREIGN KEY (
+ALTER TABLE `carbonated_ingredients` ADD CONSTRAINT `FK_carbonated_TO_carbonated_ingredients_1` FOREIGN KEY (
 	`carbonated_id`
 )
 REFERENCES `carbonated` (
@@ -836,32 +836,32 @@ REFERENCES `country` (
 	`country_id`
 );
 
-ALTER TABLE `other_ingredient_integredients` ADD CONSTRAINT `FK_integredients_TO_other_ingredient_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `other_ingredient_ingredients` ADD CONSTRAINT `FK_ingredients_TO_other_ingredient_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
-ALTER TABLE `other_ingredient_integredients` ADD CONSTRAINT `FK_other_ingredients_TO_other_ingredient_integredients_1` FOREIGN KEY (
+ALTER TABLE `other_ingredient_ingredients` ADD CONSTRAINT `FK_other_ingredients_TO_other_ingredient_ingredients_1` FOREIGN KEY (
 	`other_ingredient_id`
 )
 REFERENCES `other_ingredients` (
 	`other_ingredient_id`
 );
 
-ALTER TABLE `syrup_integredients` ADD CONSTRAINT `FK_syrups_TO_syrup_integredients_1` FOREIGN KEY (
+ALTER TABLE `syrup_ingredients` ADD CONSTRAINT `FK_syrups_TO_syrup_ingredients_1` FOREIGN KEY (
 	`syrups_id`
 )
 REFERENCES `syrups` (
 	`syrups_id`
 );
 
-ALTER TABLE `syrup_integredients` ADD CONSTRAINT `FK_integredients_TO_syrup_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `syrup_ingredients` ADD CONSTRAINT `FK_ingredients_TO_syrup_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
 ALTER TABLE `cocktail_spirit_products` ADD CONSTRAINT `FK_cocktails_TO_cocktail_spirit_products_1` FOREIGN KEY (
@@ -941,32 +941,32 @@ REFERENCES `images` (
 	`image_id`
 );
 
-ALTER TABLE `garnish_integredients` ADD CONSTRAINT `FK_integredients_TO_garnish_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `garnish_ingredients` ADD CONSTRAINT `FK_ingredients_TO_garnish_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
-ALTER TABLE `garnish_integredients` ADD CONSTRAINT `FK_garnishes_TO_garnish_integredients_1` FOREIGN KEY (
+ALTER TABLE `garnish_ingredients` ADD CONSTRAINT `FK_garnishes_TO_garnish_ingredients_1` FOREIGN KEY (
 	`garnish_id`
 )
 REFERENCES `garnishes` (
 	`garnish_id`
 );
 
-ALTER TABLE `bitter_integredients` ADD CONSTRAINT `FK_bitters_TO_bitter_integredients_1` FOREIGN KEY (
+ALTER TABLE `bitter_ingredients` ADD CONSTRAINT `FK_bitters_TO_bitter_ingredients_1` FOREIGN KEY (
 	`bitter_id`
 )
 REFERENCES `bitters` (
 	`bitter_id`
 );
 
-ALTER TABLE `bitter_integredients` ADD CONSTRAINT `FK_integredients_TO_bitter_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `bitter_ingredients` ADD CONSTRAINT `FK_ingredients_TO_bitter_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
 ALTER TABLE `cocktail_serving_style` ADD CONSTRAINT `FK_cocktails_TO_cocktail_serving_style_1` FOREIGN KEY (
@@ -1137,28 +1137,28 @@ REFERENCES `serving_style` (
 	`serving_style_id`
 );
 
-ALTER TABLE `juice_integredients` ADD CONSTRAINT `FK_juices_TO_juice_integredients_1` FOREIGN KEY (
+ALTER TABLE `juice_ingredients` ADD CONSTRAINT `FK_juices_TO_juice_ingredients_1` FOREIGN KEY (
 	`juice_id`
 )
 REFERENCES `juices` (
 	`juice_id`
 );
 
-ALTER TABLE `juice_integredients` ADD CONSTRAINT `FK_integredients_TO_juice_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `juice_ingredients` ADD CONSTRAINT `FK_ingredients_TO_juice_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
-ALTER TABLE `dairy_cream_integredients` ADD CONSTRAINT `FK_integredients_TO_dairy_cream_integredients_1` FOREIGN KEY (
-	`integredient_id`
+ALTER TABLE `dairy_cream_ingredients` ADD CONSTRAINT `FK_ingredients_TO_dairy_cream_ingredients_1` FOREIGN KEY (
+	`ingredient_id`
 )
-REFERENCES `integredients` (
-	`integredient_id`
+REFERENCES `ingredients` (
+	`ingredient_id`
 );
 
-ALTER TABLE `dairy_cream_integredients` ADD CONSTRAINT `FK_dairy_cream_TO_dairy_cream_integredients_1` FOREIGN KEY (
+ALTER TABLE `dairy_cream_ingredients` ADD CONSTRAINT `FK_dairy_cream_TO_dairy_cream_ingredients_1` FOREIGN KEY (
 	`dairy_id`
 )
 REFERENCES `dairy_cream` (
@@ -1236,10 +1236,10 @@ REFERENCES `users` (
 );
 
 ALTER TABLE `spirit_products` ADD CONSTRAINT `FK_base_spirits_TO_spirit_products_1` FOREIGN KEY (
-	`base_sprits_id`
+	`base_spirits_id`
 )
 REFERENCES `base_spirits` (
-	`base_sprits_id`
+	`base_spirits_id`
 );
 
 ALTER TABLE `spirit_products` ADD CONSTRAINT `FK_country_TO_spirit_products_1` FOREIGN KEY (
