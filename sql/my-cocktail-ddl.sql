@@ -346,7 +346,7 @@ CREATE TABLE `techniques` (
     `technique_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `technique_name` VARCHAR(50) NOT NULL COMMENT '기법명',
     `technique_name_kr` VARCHAR(100) NOT NULL COMMENT '기법명(한글)',
-    `technique_category` ENUM('mix', 'pour', 'garnish', 'special') NOT NULL COMMENT '타입',
+    `technique_category` ENUM('shaking', 'stirring', 'building', 'muddling', 'blending', 'layering') NOT NULL COMMENT '타입',
     `notes` TEXT NULL COMMENT '설명',
     `when_to_use_notes` TEXT NULL COMMENT '사용 시기에 대한 설명',
     `dilution_level` ENUM('none', 'low', 'medium', 'high') NOT NULL COMMENT '희석 정도',
