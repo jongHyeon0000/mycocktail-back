@@ -23,8 +23,8 @@ CREATE TABLE `cocktail_variations` (
 
 CREATE TABLE `country` (
     `country_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `country` VARCHAR(50) NOT NULL COMMENT '원산지 국가',
-    `country_name` VARCHAR(100) NOT NULL COMMENT '원산지 국가(한글)',
+    `country_name` VARCHAR(50) NOT NULL COMMENT '원산지 국가',
+    `country_name_kr` VARCHAR(100) NOT NULL COMMENT '원산지 국가(한글)',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
     PRIMARY KEY (`country_id`)
@@ -32,8 +32,8 @@ CREATE TABLE `country` (
 
 CREATE TABLE `brand` (
     `brand_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `brand` VARCHAR(50) NOT NULL COMMENT '브랜드명',
-    `brand_kr` VARCHAR(100) NOT NULL COMMENT '브랜드명(한글)',
+    `brand_name` VARCHAR(50) NOT NULL COMMENT '브랜드명',
+    `brand_name_kr` VARCHAR(100) NOT NULL COMMENT '브랜드명(한글)',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
     `notes` TEXT NULL COMMENT '설명',
@@ -50,11 +50,10 @@ CREATE TABLE `garnishes` (
     `notes` TEXT NULL COMMENT '설명',
     `shelf_life_days` INT NULL COMMENT '유통기한',
     `storage_type` VARCHAR(100) NULL COMMENT '보관방법',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NOT NULL COMMENT '대체 가능한 것에 대한 설명',
-    `garnish_type` ENUM('citrus', 'herb', 'fruit', 'vegetable', 'other') NOT NULL COMMENT '타입',
     `primary_function` ENUM('aroma', 'flavor', 'visual', 'all') NOT NULL COMMENT '주요 사용처',
     PRIMARY KEY (`garnish_id`),
     KEY `idx_brand` (`brand_id`),
@@ -84,7 +83,7 @@ CREATE TABLE `users` (
     `is_deleted` BOOLEAN NOT NULL COMMENT '탈퇴 여부',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '가입일',
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '최종 업데이트일',
-    `deactive_at` TIMESTAMP NULL COMMENT '비활성 업데이트일',
+    `deactivated_at` TIMESTAMP NULL COMMENT '비활성 업데이트일',
     `deleted_at` TIMESTAMP NULL COMMENT '탈퇴 업데이트일',
     `username` VARCHAR(50) NOT NULL COMMENT '유저명',
     `gender` CHAR(1) NULL COMMENT '성별',
@@ -120,7 +119,7 @@ CREATE TABLE `cocktails` (
     `category` ENUM('classic', 'contemporary', 'signature', 'mocktail', 'other') NOT NULL COMMENT '카테고리',
     `abs_percentage` DECIMAL(3,1) NOT NULL COMMENT '예상 도수',
     `serving_size_ml` INT NOT NULL COMMENT '표준 제공량',
-    `defficulty_level` INT NOT NULL COMMENT '난이도 (1~5)',
+    `difficulty_level` INT NOT NULL COMMENT '난이도 (1~5)',
     `profile_note` TEXT NULL COMMENT '프로필 설명',
     `note` TEXT NULL COMMENT '설명',
     `history_note` TEXT NULL COMMENT '역사 설명',
@@ -161,35 +160,14 @@ CREATE TABLE `carbonated` (
     `notes` TEXT NULL COMMENT '설명',
     `shelf_life_days` INT NULL COMMENT '유통기한',
     `storage_type` VARCHAR(100) NULL COMMENT '보관방법',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명',
-    `carbonated_type` ENUM('soda', 'tonic', 'ginger', 'cola', 'other') NOT NULL COMMENT '타입',
     PRIMARY KEY (`carbonated_id`),
     KEY `idx_brand` (`brand_id`),
     KEY `idx_country` (`country_id`)
 ) COMMENT '탄산/소다류';
-
-CREATE TABLE `ingredients` (
-    `ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `ingredient_name` VARCHAR(50) NOT NULL COMMENT '주재료명',
-    `ingredient_name_kr` VARCHAR(100) NOT NULL COMMENT '주재료명(한글)',
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
-    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
-    `notes` TEXT NULL COMMENT '설명',
-    PRIMARY KEY (`ingredient_id`)
-) COMMENT '주재료';
-
-CREATE TABLE `carbonated_ingredients` (
-    `carbonated_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `carbonated_id` INT NOT NULL COMMENT '탄산/소다 fk',
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
-    PRIMARY KEY (`carbonated_ingredient_id`),
-    KEY `idx_ingredient` (`ingredient_id`),
-    KEY `idx_carbonated` (`carbonated_id`)
-) COMMENT '탄산/소다 주재료';
 
 CREATE TABLE `bitters` (
     `bitter_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -201,7 +179,7 @@ CREATE TABLE `bitters` (
     `notes` TEXT NULL COMMENT '설명',
     `storage_type` VARCHAR(100) NULL COMMENT '보관방법',
     `shelf_life_days` INT NULL COMMENT '유통기한',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명',
@@ -219,26 +197,15 @@ CREATE TABLE `other_ingredients` (
     `notes` TEXT NULL COMMENT '설명',
     `shelf_life_days` INT NULL COMMENT '유통기한',
     `storage_type` VARCHAR(100) NULL COMMENT '보관방법',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명',
-    `ingredient_category` ENUM('egg', 'spice', 'sauce', 'sweetener', 'other') NOT NULL COMMENT '타입',
     `primary_function` ENUM('foam', 'rim', 'flavor', 'enhancer', 'other') NOT NULL COMMENT '주요 사용처',
     PRIMARY KEY (`other_ingredient_id`),
     KEY `idx_brand` (`brand_id`),
     KEY `idx_country` (`country_id`)
 ) COMMENT '기타 첨가물';
-
-CREATE TABLE `other_ingredient_ingredients` (
-    `other_ingredient_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `other_ingredient_id` INT NOT NULL COMMENT 'id',
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
-    PRIMARY KEY (`other_ingredient_ingredient_id`),
-    KEY `idx_ingredient` (`ingredient_id`),
-    KEY `idx_other_ingredient` (`other_ingredient_id`)
-) COMMENT '기타 첨가물 주재료';
 
 CREATE TABLE `syrups` (
     `syrups_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -250,7 +217,7 @@ CREATE TABLE `syrups` (
     `notes` TEXT NULL COMMENT '설명',
     `shelf_life_days` INT NULL COMMENT '유통기한',
     `storage_type` VARCHAR(100) NULL COMMENT '보관방법',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명',
@@ -258,16 +225,6 @@ CREATE TABLE `syrups` (
     KEY `idx_brand` (`brand_id`),
     KEY `idx_country` (`country_id`)
 ) COMMENT '시럽';
-
-CREATE TABLE `syrup_ingredients` (
-    `syrup_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `syrups_id` INT NOT NULL COMMENT '시럽 fk',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
-    PRIMARY KEY (`syrup_ingredient_id`),
-    KEY `idx_syrup` (`syrups_id`),
-    KEY `idx_ingredient` (`ingredient_id`)
-) COMMENT '시럽 주재료';
 
 CREATE TABLE `spirit_products` (
     `spirit_products_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -309,7 +266,7 @@ CREATE TABLE `cocktail_spirit_products` (
 ) COMMENT '칵테일 사용 기주';
 
 CREATE TABLE `glassware` (
-    `glass_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `glass_id` INT NOT NULL AUTO_INCREMENT COMMENT '서빙 잔 fk',
     `glass_name` VARCHAR(50) NOT NULL COMMENT '서빙 잔명',
     `glass_name_kr` VARCHAR(100) NOT NULL COMMENT '서빙 잔명(한글)',
     `glass_type` ENUM('stemmed', 'tumbler', 'mug', 'flute', 'specialty') NOT NULL COMMENT '타입',
@@ -398,26 +355,6 @@ CREATE TABLE `image_thumbnails` (
     KEY `idx_image` (`image_id`)
 ) COMMENT '이미지 썸네일';
 
-CREATE TABLE `garnish_ingredients` (
-    `garnish_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `garnish_id` INT NOT NULL COMMENT '가니쉬 fk',
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
-    PRIMARY KEY (`garnish_ingredient_id`),
-    KEY `idx_ingredient` (`ingredient_id`),
-    KEY `idx_garnish` (`garnish_id`)
-) COMMENT '가니쉬 주재료';
-
-CREATE TABLE `bitter_ingredients` (
-    `bitter_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `bitter_id` INT NOT NULL COMMENT '비터스 fk',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '등록일',
-    PRIMARY KEY (`bitter_ingredient_id`),
-    KEY `idx_bitter` (`bitter_id`),
-    KEY `idx_ingredient` (`ingredient_id`)
-) COMMENT '비터스 주재료';
-
 CREATE TABLE `serving_style` (
     `serving_style_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `serving_style_name` VARCHAR(50) NOT NULL COMMENT '서빙 스타일명',
@@ -442,7 +379,7 @@ CREATE TABLE `cocktail_serving_style` (
     KEY `idx_serving_style` (`serving_style_id`)
 ) COMMENT '칵테일 서빙 스타일';
 
-CREATE TABLE `juices` (
+CREATE TABLE `juice` (
     `juice_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
     `brand_id` INT NOT NULL COMMENT '브랜드 fk',
     `country_id` INT NOT NULL COMMENT '원산지 국가 fk',
@@ -453,17 +390,16 @@ CREATE TABLE `juices` (
     `notes` TEXT NULL COMMENT '설명',
     `storage_type` TEXT NULL COMMENT '보관방법',
     `shelf_life_days` INT NULL COMMENT '유통기한',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명',
-    `juice_type` ENUM('citrus', 'tropical', 'berry', 'other') NOT NULL COMMENT '타입',
     PRIMARY KEY (`juice_id`),
     KEY `idx_brand` (`brand_id`),
     KEY `idx_country` (`country_id`)
 ) COMMENT '주스';
 
-CREATE TABLE `cocktail_juices` (
+CREATE TABLE `cocktail_juice` (
     `cocktail_juice_id` INT NOT NULL AUTO_INCREMENT COMMENT '칵테일 사용 주스',
     `cocktail_id` INT NOT NULL COMMENT '칵테일 fk',
     `juice_id` INT NOT NULL COMMENT '주스 fk',
@@ -483,11 +419,10 @@ CREATE TABLE `dairy_cream` (
     `notes` TEXT NULL COMMENT '설명',
     `shelf_life_days` INT NULL COMMENT '유통기한',
     `storage_type` VARCHAR(100) NULL COMMENT '보관방법',
-    `personal_review` TEXT NULL COMMENT '개인 후기',
+    `when_to_use_notes` TEXT NULL COMMENT '사용 시기',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '최종 업데이트일',
     `substitute_notes` TEXT NULL COMMENT '대체 가능한 것에 대한 설명',
-    `dairy_type` ENUM('milk', 'cream', 'coconut', 'alternative') NOT NULL COMMENT '타입',
     `is_dairy_free` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '유제품 프리 여부',
     PRIMARY KEY (`dairy_id`),
     KEY `idx_brand` (`brand_id`),
@@ -554,26 +489,6 @@ CREATE TABLE `glassware_serving_style` (
     KEY `idx_glass` (`glass_id`),
     KEY `idx_serving_style` (`serving_style_id`)
 ) COMMENT '자주 사용되는 서빙 스타일';
-
-CREATE TABLE `juice_ingredients` (
-    `juice_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `juice_id` INT NOT NULL COMMENT '주스 fk',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
-    PRIMARY KEY (`juice_ingredient_id`),
-    KEY `idx_juice` (`juice_id`),
-    KEY `idx_ingredient` (`ingredient_id`)
-) COMMENT '주스 주재료';
-
-CREATE TABLE `dairy_cream_ingredients` (
-    `dairy_cream_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `ingredient_id` INT NOT NULL COMMENT '주재료 fk',
-    `dairy_id` INT NOT NULL COMMENT '유제품/크림 fk',
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
-    PRIMARY KEY (`dairy_cream_ingredient_id`),
-    KEY `idx_ingredient` (`ingredient_id`),
-    KEY `idx_dairy` (`dairy_id`)
-) COMMENT '유제품/크림류 주재료';
 
 CREATE TABLE `cocktail_other_ingredients` (
     `cocktail_other_ingredient_id` INT NOT NULL AUTO_INCREMENT COMMENT '칵테일 사용 기타 첨가물',
@@ -674,20 +589,6 @@ REFERENCES `garnishes` (
     `garnish_id`
 );
 
-ALTER TABLE `carbonated_ingredients` ADD CONSTRAINT `FK_ingredients_TO_carbonated_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
-);
-
-ALTER TABLE `carbonated_ingredients` ADD CONSTRAINT `FK_carbonated_TO_carbonated_ingredients_1` FOREIGN KEY (
-    `carbonated_id`
-)
-REFERENCES `carbonated` (
-    `carbonated_id`
-);
-
 ALTER TABLE `bitters` ADD CONSTRAINT `FK_brand_TO_bitters_1` FOREIGN KEY (
     `brand_id`
 )
@@ -700,34 +601,6 @@ ALTER TABLE `bitters` ADD CONSTRAINT `FK_country_TO_bitters_1` FOREIGN KEY (
 )
 REFERENCES `country` (
     `country_id`
-);
-
-ALTER TABLE `other_ingredient_ingredients` ADD CONSTRAINT `FK_ingredients_TO_other_ingredient_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
-);
-
-ALTER TABLE `other_ingredient_ingredients` ADD CONSTRAINT `FK_other_ingredients_TO_other_ingredient_ingredients_1` FOREIGN KEY (
-    `other_ingredient_id`
-)
-REFERENCES `other_ingredients` (
-    `other_ingredient_id`
-);
-
-ALTER TABLE `syrup_ingredients` ADD CONSTRAINT `FK_syrups_TO_syrup_ingredients_1` FOREIGN KEY (
-    `syrups_id`
-)
-REFERENCES `syrups` (
-    `syrups_id`
-);
-
-ALTER TABLE `syrup_ingredients` ADD CONSTRAINT `FK_ingredients_TO_syrup_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
 );
 
 ALTER TABLE `cocktail_spirit_products` ADD CONSTRAINT `FK_cocktails_TO_cocktail_spirit_products_1` FOREIGN KEY (
@@ -807,34 +680,6 @@ REFERENCES `images` (
     `image_id`
 );
 
-ALTER TABLE `garnish_ingredients` ADD CONSTRAINT `FK_ingredients_TO_garnish_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
-);
-
-ALTER TABLE `garnish_ingredients` ADD CONSTRAINT `FK_garnishes_TO_garnish_ingredients_1` FOREIGN KEY (
-    `garnish_id`
-)
-REFERENCES `garnishes` (
-    `garnish_id`
-);
-
-ALTER TABLE `bitter_ingredients` ADD CONSTRAINT `FK_bitters_TO_bitter_ingredients_1` FOREIGN KEY (
-    `bitter_id`
-)
-REFERENCES `bitters` (
-    `bitter_id`
-);
-
-ALTER TABLE `bitter_ingredients` ADD CONSTRAINT `FK_ingredients_TO_bitter_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
-);
-
 ALTER TABLE `cocktail_serving_style` ADD CONSTRAINT `FK_cocktails_TO_cocktail_serving_style_1` FOREIGN KEY (
     `cocktail_id`
 )
@@ -849,17 +694,17 @@ REFERENCES `serving_style` (
     `serving_style_id`
 );
 
-ALTER TABLE `cocktail_juices` ADD CONSTRAINT `FK_cocktails_TO_cocktail_juices_1` FOREIGN KEY (
+ALTER TABLE `cocktail_juice` ADD CONSTRAINT `FK_cocktails_TO_cocktail_juice_1` FOREIGN KEY (
     `cocktail_id`
 )
 REFERENCES `cocktails` (
     `cocktail_id`
 );
 
-ALTER TABLE `cocktail_juices` ADD CONSTRAINT `FK_juices_TO_cocktail_juices_1` FOREIGN KEY (
+ALTER TABLE `cocktail_juice` ADD CONSTRAINT `FK_juice_TO_cocktail_juice_1` FOREIGN KEY (
     `juice_id`
 )
-REFERENCES `juices` (
+REFERENCES `juice` (
     `juice_id`
 );
 
@@ -1003,34 +848,6 @@ REFERENCES `serving_style` (
     `serving_style_id`
 );
 
-ALTER TABLE `juice_ingredients` ADD CONSTRAINT `FK_juices_TO_juice_ingredients_1` FOREIGN KEY (
-    `juice_id`
-)
-REFERENCES `juices` (
-    `juice_id`
-);
-
-ALTER TABLE `juice_ingredients` ADD CONSTRAINT `FK_ingredients_TO_juice_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
-);
-
-ALTER TABLE `dairy_cream_ingredients` ADD CONSTRAINT `FK_ingredients_TO_dairy_cream_ingredients_1` FOREIGN KEY (
-    `ingredient_id`
-)
-REFERENCES `ingredients` (
-    `ingredient_id`
-);
-
-ALTER TABLE `dairy_cream_ingredients` ADD CONSTRAINT `FK_dairy_cream_TO_dairy_cream_ingredients_1` FOREIGN KEY (
-    `dairy_id`
-)
-REFERENCES `dairy_cream` (
-    `dairy_id`
-);
-
 ALTER TABLE `cocktail_other_ingredients` ADD CONSTRAINT `FK_cocktails_TO_cocktail_other_ingredients_1` FOREIGN KEY (
     `cocktail_id`
 )
@@ -1045,14 +862,14 @@ REFERENCES `other_ingredients` (
     `other_ingredient_id`
 );
 
-ALTER TABLE `juices` ADD CONSTRAINT `FK_brand_TO_juices_1` FOREIGN KEY (
+ALTER TABLE `juice` ADD CONSTRAINT `FK_brand_TO_juice_1` FOREIGN KEY (
     `brand_id`
 )
 REFERENCES `brand` (
     `brand_id`
 );
 
-ALTER TABLE `juices` ADD CONSTRAINT `FK_country_TO_juices_1` FOREIGN KEY (
+ALTER TABLE `juice` ADD CONSTRAINT `FK_country_TO_juice_1` FOREIGN KEY (
     `country_id`
 )
 REFERENCES `country` (
